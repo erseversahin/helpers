@@ -1,0 +1,96 @@
+<?php
+date_default_timezone_set('Europe/Istanbul');
+$commands = [
+    "php se make:dir --dir 'dirname/dirname' (Bir dizin oluşturur)",
+    "php se make:php  --dir 'dirname/dirname'  --filename 'filename' -- (İstenilen dizinde bir php dosyası oluşturur.)",
+    "php se make:pdoconnection --dir 'dirname/dirname' --filename 'filename' --host 'host/IP' --dbname 'your_dbname' --user 'your_db_user' --pass 'your_db_password' (İstenilen dizinde bir PDO bağlantı dosyası oluşturur.)",
+];
+
+if (isset($argv[1])) {
+    $command = explode(':', $argv[1]);
+
+    if ($command[0] == 'make') {
+        if ($command[1] == 'dir') {
+
+            if ($argv[2] == '--dir' && $argv[3]) {
+                @mkdir($path, 0777, true);
+            }
+
+        }
+        if ($command[1] == 'php') {
+
+            if ($argv[2] == '--dir' && $argv[3] && $argv[4] == '--filename' && $argv[5]) {
+                $path = trim($argv[3], ' /\\.php');
+                @mkdir($path, 0777, true);
+                @touch($path . '/' . $argv[5] . '.php');
+
+                $fileTemplate = "<?php\n/**\n* SE CLI ile oluşturuldu.\n* \n* @date %s\n* @fileName %s\n*\n*/\n";
+
+                file_put_contents($path . '/' . $argv[5] . '.php', sprintf($fileTemplate, date('Y-m-d H:i:s'), $argv[5] . '.php'));
+
+            }
+
+        }
+        if ($command[1] == 'pdoconnection') {
+
+
+            if (
+                $argv[4] == '--filename' && $argv[5] &&
+                $argv[6] == '--host' && $argv[7] &&
+                $argv[8] == '--dbname' && $argv[9] &&
+                $argv[10] == '--user' && $argv[11] &&
+                $argv[12] == '--pass'
+            )
+            {
+
+                $path = trim($argv[3], ' /\\.php');
+                @mkdir($path, 0777, true);
+                @touch($path . '/'.$argv[5].'.php');
+
+                $file = file_get_contents(__DIR__.'/se_cli/pdoconnection.php');
+
+                file_put_contents($path . '/'.$argv[5].'.php', sprintf($file, ''.$argv[5].'.php',date('Y-m-d H:i:s'),$argv[7],$argv[9],$argv[11],$argv[13] ?? ''));
+            }else{
+                echo "Hatalı Argüman:\n";
+                echo PHP_EOL;
+                echo PHP_EOL;
+                echo '### Kullanılabilir Komutlar: ###';
+                echo PHP_EOL;
+                echo PHP_EOL;
+                foreach ($commands as $val):
+                    echo $val . PHP_EOL;
+                endforeach;
+                echo PHP_EOL;
+                echo PHP_EOL;
+
+            }
+
+
+
+
+
+        }
+    } else {
+        echo PHP_EOL;
+        echo PHP_EOL;
+        echo '### Kullanılabilir Komutlar: ###';
+        echo PHP_EOL;
+        echo PHP_EOL;
+        foreach ($commands as $val):
+            echo $val . PHP_EOL;
+        endforeach;
+        echo PHP_EOL;
+        echo PHP_EOL;
+    }
+} else {
+    echo PHP_EOL;
+    echo PHP_EOL;
+    echo '### Kullanılabilir Komutlar: ###';
+    echo PHP_EOL;
+    echo PHP_EOL;
+    foreach ($commands as $val):
+        echo $val . PHP_EOL;
+    endforeach;
+    echo PHP_EOL;
+    echo PHP_EOL;
+}
