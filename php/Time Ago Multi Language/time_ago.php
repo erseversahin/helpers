@@ -1,7 +1,14 @@
 <?php
 
-
-function timeAgo ($time, $locale = 'tr', $getFullDiff = false){
+/**
+ * @param string $time
+ * @param string $locale
+ * @param bool $getFullDiff
+ * @return string
+ * @throws Exception
+ */
+function timeAgo (string $time, string $locale = 'tr', bool $getFullDiff = false) : string
+{
 
     $locales = [
         'tr' => [

@@ -2,5 +2,5 @@
 
 #### PHP
 
-- [Function TimeAgo](php/time_ago.php)
-- [Function CopyRecursive](php/copy_recursive.php)
+- [TimeAgo MultiLanguage](php/Time%20Ago%20Multi%20Language)
+- [Recursive Copy Directory](php/Recursive%20Copy%20Directory)

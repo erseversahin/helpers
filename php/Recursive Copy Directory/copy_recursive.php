@@ -1,6 +1,7 @@
 <?php
 
-function copyAll($source,$dist) {
+function copyAll(string $source, string $dist) : void
+{
     $dir = opendir($source);
     @mkdir($dist);
     while(false !== ( $file = readdir($dir)) ) {
