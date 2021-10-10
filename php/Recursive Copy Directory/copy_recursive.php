@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @param string $source
+ * @param string $dist
+ */
 function copyAll(string $source, string $dist) : void
 {
     $dir = opendir($source);
