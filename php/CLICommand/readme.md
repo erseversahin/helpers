@@ -2,7 +2,10 @@
 
 PHP geliştirme esnasında işlemleri hızlandırmak için geliştirilmiş bir komut satırı uygulaması.
 
+### Yükleme/Kullanma
 
+``se`` dosyasını ve ``se_cli`` klasörünü proje anadizinize kopyalayın.
+Terminalinizi açın ve komutu çalıştırın.
 
 ### Kullanılabilir Komutlar:
 
