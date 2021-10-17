@@ -11,5 +11,10 @@
   - UTF-8 String Fonksiyonları.
 - [Recursive Array Filter](php/RecursiveArrayFilter)
   - Çok boyutlu dizilerde tüm değerlere filtre uygular.
+
+## JS<hr>
+
+- [ObjectValueWithKeyPath](js/ObjectValueWithKeyPath)
+    - Verilen yolu takip ederek obje içindeki değerini getirir.
 <hr>
 
