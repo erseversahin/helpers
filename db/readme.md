@@ -1,5 +1,4 @@
-### JS Archive<hr>
+## Database<hr>
 
-- [ObjectValueWithKeyPath](ObjectValueWithKeyPath)
-  - Verilen yolu takip ederek obje içindeki değerini getirir.
-<hr>
+- [MongoDB Cheat Sheet](mongodb.md)
+    - MongoDB notlarına göz atın.
