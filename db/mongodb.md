@@ -293,3 +293,11 @@ Sonuçları döndürürken ilk 4 kullanıcıyı atlayın.
 db.users.find().skip(4).limit(2)
 ```
 İlk 4 kullanıcıdan sonraki 2 kullanıcıyı getirir.
+
+## Search
+
+### $regex
+```
+db.users.find({ name: { $regex: /sahin/, $options: "si" } })
+```
+Küçük büyük harfe duyarsız regex deseni ile search etmenizi sağlar.
