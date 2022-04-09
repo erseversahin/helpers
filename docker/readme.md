@@ -169,7 +169,7 @@ docker run mongo --network:none
 docker run mongo --network:host
 ```
 
-### Kullanıcı Tanımlı Network
+### Kullanıcı Tanımlı Network Oluşturma
 ```
 docker run --driver bridge --subnet 182.18.0.0/16 --gateway 182.18.0.1 my-app-network
 ```
@@ -191,5 +191,10 @@ docker network list
 ### Network Ayrıntılarını Öğrenme
 ```
 docker inspect <networkID|networkName>
+```
+
+### Kullanıcı Tanımlı Network Oluşturma
+```
+docker network create --driver bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 my-network
 ```
 
