@@ -195,6 +195,14 @@ docker inspect <networkID|networkName>
 
 ### Kullanıcı Tanımlı Network Oluşturma
 ```
-docker network create --driver bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 my-network
+docker network create --driver bridge --subnet 182.18.0.1/24 --gateway 182.18.0.1 my-custom-network
 ```
 
+### Kullanıcı Tanımlı Network ile Container Çalıştırma
+
+```
+docker run --name my-mongo --net my-custom-network -d mongo
+```
+
+
+## Docker File Oluşturma
