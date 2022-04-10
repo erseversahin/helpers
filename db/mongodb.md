@@ -319,6 +319,251 @@ Küçük büyük harfe duyarsız regex deseni ile search etmenizi sağlar.
 | `$push`           | Bir diziye bir öğe ekler.                                                                                                        |
 | `$pullAll`        | Bir diziden eşleşen tüm değerleri kaldırır.                                                                                      |
 
+#### `$` Operator
+
+```js
+// 3 Documents Added To Collection
+db.students.insertMany( [
+   { "_id" : 1, "grades" : [ 85, 80, 80 ] },
+   { "_id" : 2, "grades" : [ 88, 90, 92 ] },
+   { "_id" : 3, "grades" : [ 85, 100, 90 ] }
+] )
+
+Result:
+// 1
+{
+    "_id": 1,
+    "grades": [
+        85,
+        80,
+        80
+    ]
+}
+
+// 2
+{
+    "_id": 2,
+    "grades": [
+        88,
+        90,
+        92
+    ]
+}
+
+// 3
+{
+    "_id": 3,
+    "grades": [
+        85,
+        100,
+        90
+    ]
+}
+
+db.students.updateOne(
+   { _id: 1, grades: 80 },
+   { $set: { "grades.$" : 82 } }
+)
+
+// 1
+{
+    "_id": 1,
+    "grades": [
+        85,
+        82,
+        80
+    ]
+}
+
+```
+
+#### `$[]` Operator
+Sorgu koşuluyla eşleşen belgeler için bir dizideki tüm öğeleri güncellemek için yer tutucu görevi görür.
+
+```js
+db.students.insertMany( [
+   { "_id" : 1, "grades" : [ 85, 82, 80 ] },
+   { "_id" : 2, "grades" : [ 88, 90, 92 ] },
+   { "_id" : 3, "grades" : [ 85, 100, 90 ] }
+] )
+
+
+// Tüm studentsların grades değerinin her bir değerini 10 artıralım!
+
+db.students.updateMany(
+   { },
+   { $inc: { "grades.$[]": 10 } },
+)
+
+// Sonuç
+
+{ "_id" : 1, "grades" : [ 95, 92, 90 ] }
+{ "_id" : 2, "grades" : [ 98, 100, 102 ] }
+{ "_id" : 3, "grades" : [ 95, 110, 100 ] }
+
+// _id'si 1 olan studentsın grades değerinin her bir değerini 20 artıralım!
+
+db.students.updateMany(
+   { _id: 1 },
+   { $inc: { "grades.$[]": 10 } },
+)
+
+// Sonuç
+
+{ "_id" : 1, "grades" : [ 115, 112, 110 ] }
+{ "_id" : 2, "grades" : [ 98, 100, 102  ] }
+{ "_id" : 3, "grades" : [ 95, 110, 100  ] }
+
+```
+
+
+#### `$[<identifier>]` Operator
+Filtrelenmiş konum operatörü `$[<identifier>]`, bir güncelleme işlemi için `arrayFilters` koşullarıyla eşleşen dizi öğelerini tanımlar.
+
+* `<identifier>` küçük harfle başlamalı ve yalnızca alfasayısal karakterler içermelidir.
+
+```js
+db.students_identifier.insertMany( [
+   { "_id" : 1, "grades" : [ 95, 92, 90 ] },
+   { "_id" : 2, "grades" : [ 98, 100, 102 ] },
+   { "_id" : 3, "grades" : [ 95, 110, 100 ] }
+] )
+
+db.students_identifier.updateMany(
+   { },
+   { $set: { "grades.$[myIdentifier]" : 100 } },
+   { arrayFilters: [ { "myIdentifier": { $gte: 100 } } ] }
+)
+
+{ "_id" : 1, "grades" : [ 95, 92, 90 ] }
+{ "_id" : 2, "grades" : [ 98, 100, 100 ] }
+{ "_id" : 3, "grades" : [ 95, 100, 100 ] }
+
+```
+
+#### `$addToSet` Operator
+`$addToSet` operatörü, değer zaten mevcut değilse, diziye bir değer ekler; aksi halde diziye hiçbir şey yapmaz.
+
+```js
+
+db.alphabet.insertOne( { _id: 1, letters: ["a", "b"] } )
+
+db.alphabet.updateOne(
+   { _id: 1 },
+   { $addToSet: { letters: [ "c", "d" ] } }
+)
+
+Result:
+{ _id: 1, letters: [ 'a', 'b', [ 'c', 'd' ] ] }
+
+```
+
+```js
+
+db.inventory.insertOne(
+   { _id: 1, item: "polarizing_filter", tags: [ "electronics", "camera" ] }
+)
+
+
+db.inventory.updateOne(
+   { _id: 1 },
+   { $addToSet: { tags: "accessories" } }
+)
+
+db.inventory.updateOne(
+   { _id: 1 },
+   { $addToSet: { tags: "camera"  } } //Value already exists
+)
+
+Result:
+{
+    "_id": 1,
+    "item": "polarizing_filter",
+    "tags": [
+        "electronics",
+        "camera",
+        "accessories"
+    ]
+}
+
+$each ile kullanarak birden fazla öğe eklenebilir.
+
+db.inventory.updateOne(
+   { _id: 1 },
+   { $addToSet: { tags: { $each: [ "camera2", "electronics2", "accessories2" ] } } }
+ )
+
+Result:
+// 1
+{
+    "_id": 1,
+    "item": "polarizing_filter",
+    "tags": [
+        "electronics",
+        "camera",
+        "accessories",
+        "camera2",
+        "electronics2",
+        "accessories2"
+    ]
+}
+
+
+```
+
+#### `$pop` Operator
+
+```js
+
+db.students.insertOne( { _id: 1, scores: [ 8, 9, 10 ] } )
+
+db.students_pop.updateOne({_id: 1},{
+    $pop: {scores: -1} // -1 İlk değeri siler [ 9, 10 ]
+})
+
+db.students_pop.updateOne({_id: 1},{
+    $pop: {scores: 1} // 1 Son değeri siler [ 9 ]
+})
+
+```
+
+#### `$pull` Operator
+
+`$pull` operatörü, belirli bir koşulla eşleşen bir değerin veya değerlerin tüm örneklerini mevcut bir diziden kaldırır.
+
+```js
+db.stores_pull.insertMany( [
+   {
+      _id: 1,
+      fruits: [ "apples", "pears", "oranges", "grapes", "bananas" ],
+      vegetables: [ "carrots", "celery", "squash", "carrots" ]
+   },
+   {
+      _id: 2,
+      fruits: [ "plums", "kiwis", "oranges", "bananas", "apples" ],
+      vegetables: [ "broccoli", "zucchini", "carrots", "onions" ]
+   }
+] )
+
+
+db.stores_pull.updateMany(
+    { },
+    { $pull: { fruits: { $in: [ "apples", "oranges" ] }, vegetables: "carrots" } }
+)
+
+Result:
+
+{
+  _id: 1,
+  fruits: [ 'pears', 'grapes', 'bananas' ],
+  vegetables: [ 'celery', 'squash' ]
+},
+{
+  _id: 2,
+  fruits: [ 'plums', 'kiwis', 'bananas' ],
+  vegetables: [ 'broccoli', 'zucchini', 'onions' ]
+}
+```
 
 ### Update Operator Modifiers
 
