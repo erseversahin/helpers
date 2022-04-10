@@ -301,3 +301,36 @@ db.users.find().skip(4).limit(2)
 db.users.find({ name: { $regex: /sahin/, $options: "si" } })
 ```
 Küçük büyük harfe duyarsız regex deseni ile search etmenizi sağlar.
+
+---
+
+## Array Update Operators [#More Info](https://www.mongodb.com/docs/manual/reference/operator/update-array/)
+
+### Update Operators
+
+| **İsim**          | **Açıklama**                                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `$`               | Sorgu koşuluyla eşleşen ilk öğeyi güncellemek için yer tutucu görevi görür.                                                      |
+| `$[]`             | Sorgu koşuluyla eşleşen belgeler için bir dizideki tüm öğeleri güncellemek için yer tutucu görevi görür.                         |
+| `$[<identifier>]` | Sorgu koşuluyla eşleşen belgeler için `arrayFilters` koşuluyla eşleşen tüm öğeleri güncellemek için bir yer tutucu görevi görür. |
+| `$addToSet`       | Öğeleri yalnızca kümede zaten yoksa diziye ekler.                                                                                |
+| `$pop`            | Dizinin ilk veya son öğesini kaldırır.                                                                                           |
+| `$pull`           | Belirtilen sorguyla eşleşen tüm dizi öğelerini kaldırır.                                                                         |
+| `$push`           | Bir diziye bir öğe ekler.                                                                                                        |
+| `$pullAll`        | Bir diziden eşleşen tüm değerleri kaldırır.                                                                                      |
+
+
+### Update Operator Modifiers
+
+| **İsim**    | **Açıklama**                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| `$each`     | Dizi güncellemeleri için birden çok öğe eklemek için `$push` ve `$addToSet` operatörlerini değiştirir. |
+| `$position` | Öğelerin ekleneceği dizideki konumu belirtmek için `$push` operatörünü değiştirir.                     |
+| `$slice`    | Güncellenen dizilerin boyutunu sınırlamak için `$push` operatörünü değiştirir.                         |
+| `$sort`     | Bir dizide depolanan belgeleri yeniden sıralamak için `$push` operatörünü değiştirir.                  |
+
+
+
+
+
+
